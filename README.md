@@ -1,4 +1,4 @@
-# 🛡️ KadeAI — AI-Powered Cybersecurity Agent
+#  KadeAI — AI-Powered Cybersecurity Agent
 
 > An intelligent cybersecurity agent that uses AI to automate threat intelligence, vulnerability scanning, OSINT recon, incident response, and professional report generation — all through a natural language interface.
 
@@ -8,20 +8,20 @@
 
 ---
 
-## ✨ Features
+##  Features
 
 | Module | Description |
 |---|---|
-| 🔍 **Threat Intel** | Fetch CVEs, scan VirusTotal, monitor threat feeds |
-| 🕵️ **Vuln Scanner** | AI-driven Nmap/Nuclei wrapper with plain-English results |
-| 🚨 **Incident Response** | Auto-triage alerts, suggest and execute remediation |
-| 🌐 **OSINT / Recon** | Footprint targets via WHOIS, Shodan, certificate transparency |
-| 📄 **Report Generator** | Auto-generate pentest reports with severity ratings |
-| 💬 **Chat Interface** | Natural language commands — no CLI flags needed |
+|  **Threat Intel** | Fetch CVEs, scan VirusTotal, monitor threat feeds |
+|  **Vuln Scanner** | AI-driven Nmap/Nuclei wrapper with plain-English results |
+|  **Incident Response** | Auto-triage alerts, suggest and execute remediation |
+|  **OSINT / Recon** | Footprint targets via WHOIS, Shodan, certificate transparency |
+|  **Report Generator** | Auto-generate pentest reports with severity ratings |
+|  **Chat Interface** | Natural language commands — no CLI flags needed |
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Clone the repo
 
@@ -58,7 +58,7 @@ python main.py
 
 ---
 
-## 🗂️ Project Structure
+##  Project Structure
 
 ```
 KadeAI/
@@ -88,9 +88,9 @@ KadeAI/
 
 ---
 
-## 🧠 How It Works
+##  How It Works
 
-KadeAI uses a central AI agent (powered by an LLM) that routes your natural language commands to the appropriate security module. Each module is a self-contained tool the agent can call.
+KadeAI uses a central AI agent (powered by an LLM) that routes your natural language commands to the appropriate security module. Each module is a self-contained tool that the agent can call.
 
 ```
 User: "Scan 192.168.1.1 for open ports and explain what you find"
@@ -102,7 +102,7 @@ User: "Scan 192.168.1.1 for open ports and explain what you find"
 
 ---
 
-## 🔑 Required API Keys
+##  Required API Keys
 
 Set these in your `.env` file:
 
@@ -115,7 +115,7 @@ Set these in your `.env` file:
 
 ---
 
-## ⚠️ Legal Disclaimer
+##  Legal Disclaimer
 
 > KadeAI is intended for **authorized security testing, research, and educational purposes only**.  
 > Do not use this tool against systems you do not own or have explicit permission to test.  
@@ -123,12 +123,12 @@ Set these in your `.env` file:
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Pull requests are welcome! Please read [`docs/contributing.md`](docs/contributing.md) before submitting.
 
 ---
 
-## 📄 License
+##  License
 
 MIT License — see [LICENSE](LICENSE) for details.
