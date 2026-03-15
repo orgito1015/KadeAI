@@ -1,4 +1,4 @@
-#  KadeAI — AI-Powered Cybersecurity Agent
+#  KadeAI — AI Powered Cybersecurity Agent
 
 > An intelligent cybersecurity agent that uses AI to automate threat intelligence, vulnerability scanning, OSINT recon, incident response, and professional report generation — all through a natural language interface.
 
