@@ -4,13 +4,15 @@ Exposes tools for Reversing/Pwn, Crypto, Web, and Forensics challenges.
 """
 
 import asyncio
+
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
-from mcp.types import Tool, TextContent
-from tools.reversing import reversing_tools, handle_reversing
+from mcp.types import TextContent, Tool
+
 from tools.crypto import crypto_tools, handle_crypto
-from tools.web import web_tools, handle_web
 from tools.forensics import forensics_tools, handle_forensics
+from tools.reversing import handle_reversing, reversing_tools
+from tools.web import handle_web, web_tools
 
 server = Server("ctf-solver")
 

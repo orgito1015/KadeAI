@@ -8,10 +8,12 @@ Reversing / Pwn tools:
   - run_binary      : run a binary with optional stdin and capture output
 """
 
-import os
 import base64
+import os
+
 from mcp.types import Tool
-from tools.utils import run_cmd, run_python, write_tempfile, decode_input
+
+from tools.utils import run_cmd, run_python, write_tempfile
 
 reversing_tools = [
     Tool(

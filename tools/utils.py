@@ -5,7 +5,6 @@ Shared utilities: sandboxed command runner and file helpers.
 import asyncio
 import os
 import tempfile
-from pathlib import Path
 
 TIMEOUT = 20  # seconds per tool call
 
