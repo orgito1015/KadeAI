@@ -1,31 +1,52 @@
-# Environment
-.env
-*.env
-
 # Python
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-.Python
-venv/
-env/
-.venv/
+*$py.class
+*.so
+*.egg
 *.egg-info/
 dist/
 build/
+.eggs/
+.Python
+env/
+venv/
+.venv/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# Reports (generated output)
-reports/
+# CTF artifacts — never commit challenge files or extracted data
+challenges/
+extractions/
+*.pcap
+*.pcapng
+*.cap
+*.bin
+*.elf
+*.exe
+*.out
+extracted/
+_extracted*/
 
-# IDE
-.vscode/
+# Secrets / keys
+.env
+.env.*
+*.key
+*.pem
+*.p12
+hashcat.potfile
+john.pot
+*.pot
+
+# Editor / OS
+.DS_Store
 .idea/
+.vscode/
 *.swp
 *.swo
+Thumbs.db
 
-# macOS
-.DS_Store
-
-# Logs
-*.log
+# Docker
+.dockerignore

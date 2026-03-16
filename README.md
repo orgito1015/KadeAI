@@ -1,134 +1,184 @@
-#  KadeAI — AI Powered Cybersecurity Agent
+# 🚩 ctf-mcp
 
-> An intelligent cybersecurity agent that uses AI to automate threat intelligence, vulnerability scanning, OSINT recon, incident response, and professional report generation — all through a natural language interface.
+> A [Model Context Protocol](https://modelcontextprotocol.io) server that turns Claude into a hands-on CTF solver.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Active%20Development-orange?style=flat-square)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org)
+[![MCP](https://img.shields.io/badge/MCP-1.0-purple.svg)](https://modelcontextprotocol.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](Dockerfile)
+
+Connect this server to Claude Desktop and Claude can **disassemble binaries, crack hashes, fuzz web apps, extract steganography, and run full pwntools exploits** — all from natural language prompts.
 
 ---
 
-##  Features
+## Categories
 
-| Module | Description |
+| Category | Tools |
 |---|---|
-|  **Threat Intel** | Fetch CVEs, scan VirusTotal, monitor threat feeds |
-|  **Vuln Scanner** | AI-driven Nmap/Nuclei wrapper with plain-English results |
-|  **Incident Response** | Auto-triage alerts, suggest and execute remediation |
-|  **OSINT / Recon** | Footprint targets via WHOIS, Shodan, certificate transparency |
-|  **Report Generator** | Auto-generate pentest reports with severity ratings |
-|  **Chat Interface** | Natural language commands — no CLI flags needed |
+| 🔩 **Reversing / Pwn** | `disassemble`, `strings_extract`, `checksec`, `run_binary`, `run_pwnscript` |
+| 🔐 **Crypto** | `decode_encode`, `hash_identify`, `hash_crack`, `xor_bruteforce`, `frequency_analysis`, `run_crypto` |
+| 🌐 **Web** | `http_request`, `fuzz_params`, `sqli_test`, `lfi_test`, `run_webscript` |
+| 🔍 **Forensics / Stego** | `file_info`, `binwalk_scan`, `hex_dump`, `stego_extract`, `metadata_dump`, `pcap_analyze`, `carve_strings` |
 
 ---
 
-##  Quick Start
+## Quick start
 
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/YOUR_USERNAME/KadeAI.git
-cd KadeAI
-```
-
-### 2. Create a virtual environment
+### Option A — Local (Python)
 
 ```bash
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
-```
-
-### 3. Install dependencies
-
-```bash
+git clone https://github.com/YOUR_USERNAME/ctf-mcp
+cd ctf-mcp
 pip install -r requirements.txt
+
+# System tools (Debian / Ubuntu)
+sudo apt install binutils gdb binwalk tshark exiftool steghide hashcat
 ```
 
-### 4. Configure environment variables
+Add to Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+
+```json
+{
+  "mcpServers": {
+    "ctf-solver": {
+      "command": "python3",
+      "args": ["/absolute/path/to/ctf-mcp/server.py"]
+    }
+  }
+}
+```
+
+### Option B — Docker (recommended for pwn/reversing)
 
 ```bash
-cp .env.example .env
-# Edit .env and add your API keys
+git clone https://github.com/YOUR_USERNAME/ctf-mcp
+cd ctf-mcp
+docker build -t ctf-mcp .
 ```
 
-### 5. Run KadeAI
-
-```bash
-python main.py
-```
-
----
-
-##  Project Structure
-
-```
-KadeAI/
-├── main.py                  # Entry point
-├── requirements.txt         # Python dependencies
-├── .env.example             # Environment variable template
-├── kadeai/
-│   ├── agent.py             # Core AI agent orchestrator
-│   ├── config.py            # Config loader
-│   ├── modules/
-│   │   ├── threat_intel.py      # Threat intelligence module
-│   │   ├── vuln_scanner.py      # Vulnerability scanner
-│   │   ├── incident_response.py # Incident response module
-│   │   ├── osint.py             # OSINT & recon module
-│   │   └── report_generator.py  # Report generation module
-│   └── utils/
-│       ├── logger.py        # Logging utilities
-│       └── formatter.py     # Output formatting
-├── tests/
-│   └── test_modules.py      # Unit tests
-├── docs/
-│   ├── architecture.md      # Architecture overview
-│   └── usage.md             # Usage guide
-└── scripts/
-    └── setup.sh             # Setup helper script
+```json
+{
+  "mcpServers": {
+    "ctf-solver": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "--network", "host",
+        "-v", "/path/to/challenges:/challenges",
+        "ctf-mcp"
+      ]
+    }
+  }
+}
 ```
 
 ---
 
-##  How It Works
+## Tool reference
 
-KadeAI uses a central AI agent (powered by an LLM) that routes your natural language commands to the appropriate security module. Each module is a self-contained tool that the agent can call.
+### 🔩 Reversing / Pwn
+
+| Tool | Description |
+|---|---|
+| `disassemble` | objdump disassembly — pass `binary_b64` (base64) or `filepath` |
+| `strings_extract` | `strings` on a binary to surface printable content and flags |
+| `checksec` | Check NX, PIE, RELRO, stack canary |
+| `run_binary` | Execute binary with optional stdin, capture output |
+| `run_pwnscript` | Run a full Python pwntools exploit — Claude writes it, this runs it |
+
+### 🔐 Crypto
+
+| Tool | Description |
+|---|---|
+| `decode_encode` | base64, hex, rot13, url, binary, morse, ascii — encode or decode |
+| `hash_identify` | Guess hash type from length and pattern |
+| `hash_crack` | hashcat + rockyou for md5/sha1/sha256/sha512/ntlm |
+| `xor_bruteforce` | Single-byte XOR brute-force ranked by English frequency, or known-key XOR |
+| `frequency_analysis` | Letter frequency for classical cipher cracking |
+| `run_crypto` | Arbitrary Python — pycryptodome, gmpy2, sympy available |
+
+### 🌐 Web
+
+| Tool | Description |
+|---|---|
+| `http_request` | HTTP GET/POST/PUT/DELETE with headers, cookies, JSON body |
+| `fuzz_params` | Fuzz a `FUZZ`-marked URL/body — presets: sqli, xss, lfi, ssti, xxe |
+| `sqli_test` | Automated SQLi detection (error, boolean, time-based) |
+| `lfi_test` | Path traversal / LFI payload testing |
+| `run_webscript` | Arbitrary Python — requests, BeautifulSoup4, httpx available |
+
+### 🔍 Forensics / Stego
+
+| Tool | Description |
+|---|---|
+| `file_info` | `file` + `exiftool` type and metadata identification |
+| `binwalk_scan` | Scan and optionally extract embedded files |
+| `hex_dump` | `xxd` with offset and length control |
+| `stego_extract` | Tries steghide, zsteg (PNG/BMP), outguess in sequence |
+| `metadata_dump` | Full exiftool dump — flags often hide in EXIF fields |
+| `pcap_analyze` | tshark modes: summary, http_objects, dns, credentials, follow_tcp |
+| `carve_strings` | `strings` with offsets + optional filter pattern |
+
+---
+
+## Example prompts
 
 ```
-User: "Scan 192.168.1.1 for open ports and explain what you find"
-  └─> KadeAI Agent
-        └─> Vuln Scanner Module (runs Nmap)
-              └─> AI formats results in plain English
-                    └─> Logs + optional report generation
+"Here's a binary (base64): <...> — find the flag. Start with checksec and strings."
+
+"Crack this hash: 5f4dcc3b5aa765d61d8327deb882cf99"
+
+"The site at http://ctf.local/search?q=FUZZ is probably injectable. Run sqli_test."
+
+"This JPEG might have a hidden message. Try all stego methods."
+
+"Analyze challenge.pcap — look for credentials in HTTP and FTP streams."
+
+"The ciphertext looks like single-byte XOR: 1a3f2b0e... brute-force it."
 ```
 
 ---
 
-##  Required API Keys
+## Project structure
 
-Set these in your `.env` file:
+```
+ctf-mcp/
+├── server.py                   # MCP entry point — registers all tools
+├── tools/
+│   ├── utils.py                # Shared: run_cmd, run_python, helpers
+│   ├── reversing.py            # Reversing + pwn tools
+│   ├── crypto.py               # Crypto tools
+│   ├── web.py                  # Web exploitation tools
+│   └── forensics.py            # Forensics + stego tools
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # Lint + import check on push/PR
+├── Dockerfile
+├── requirements.txt
+├── LICENSE
+└── README.md
+```
 
-| Key | Service | Free Tier? |
-|---|---|---|
-| `OPENAI_API_KEY` | OpenAI (LLM backbone) | ✅ Trial |
-| `VIRUSTOTAL_API_KEY` | Virus/malware scanning | ✅ Free |
-| `SHODAN_API_KEY` | Internet-facing device intel | ✅ Free |
-| `NVD_API_KEY` | NIST CVE database | ✅ Free |
+## Extending
+
+Each category is self-contained. To add a tool:
+
+1. Open `tools/<category>.py`
+2. Add a `Tool(name=..., description=..., inputSchema=...)` to the list
+3. Add an `if name == "..."` branch in the `handle_*` function
+
+No changes to `server.py` needed — it auto-registers everything.
 
 ---
 
-##  Legal Disclaimer
+## Security
 
-> KadeAI is intended for **authorized security testing, research, and educational purposes only**.  
-> Do not use this tool against systems you do not own or have explicit permission to test.  
-> The authors take no responsibility for misuse.
-
----
-
-##  Contributing
-
-Pull requests are welcome! Please read [`docs/contributing.md`](docs/contributing.md) before submitting.
+- Use Docker when running untrusted binaries (pwn/reversing)
+- Never expose the server on a network port — it runs shell commands
+- The Dockerfile runs as a non-root `ctf` user
 
 ---
 
-##  License
+## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+[MIT](LICENSE)
