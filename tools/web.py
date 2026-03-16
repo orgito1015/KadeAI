@@ -8,8 +8,10 @@ Web tools:
 """
 
 import json
+
 from mcp.types import Tool
-from tools.utils import run_cmd, run_python
+
+from tools.utils import run_python
 
 web_tools = [
     Tool(
@@ -141,7 +143,7 @@ def _build_request_code(
 ) -> str:
     parts = [
         "import requests, json, sys",
-        f"s = requests.Session()",
+        "s = requests.Session()",
     ]
     if headers:
         parts.append(f"s.headers.update({json.dumps(headers)})")

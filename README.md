@@ -1,11 +1,12 @@
-# 🚩 ctf-mcp
+# KadeMCP — CTF Solver MCP Server
 
 > A [Model Context Protocol](https://modelcontextprotocol.io) server that turns Claude into a hands-on CTF solver.
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org)
-[![MCP](https://img.shields.io/badge/MCP-1.0-purple.svg)](https://modelcontextprotocol.io)
+[![MCP](https://img.shields.io/badge/MCP-1.0%2B-purple.svg)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](Dockerfile)
+[![CI](https://github.com/orgito1015/KadeMCP/actions/workflows/ci.yml/badge.svg)](https://github.com/orgito1015/KadeMCP/actions/workflows/ci.yml)
 
 Connect this server to Claude Desktop and Claude can **disassemble binaries, crack hashes, fuzz web apps, extract steganography, and run full pwntools exploits** — all from natural language prompts.
 
@@ -27,22 +28,25 @@ Connect this server to Claude Desktop and Claude can **disassemble binaries, cra
 ### Option A — Local (Python)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ctf-mcp
-cd ctf-mcp
+git clone https://github.com/orgito1015/KadeMCP
+cd KadeMCP
 pip install -r requirements.txt
 
 # System tools (Debian / Ubuntu)
 sudo apt install binutils gdb binwalk tshark exiftool steghide hashcat
 ```
 
-Add to Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+Add to Claude Desktop config:
+
+- **macOS** — `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows** — `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
     "ctf-solver": {
       "command": "python3",
-      "args": ["/absolute/path/to/ctf-mcp/server.py"]
+      "args": ["/absolute/path/to/KadeMCP/server.py"]
     }
   }
 }
@@ -51,9 +55,9 @@ Add to Claude Desktop config (`~/Library/Application Support/Claude/claude_deskt
 ### Option B — Docker (recommended for pwn/reversing)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ctf-mcp
-cd ctf-mcp
-docker build -t ctf-mcp .
+git clone https://github.com/orgito1015/KadeMCP
+cd KadeMCP
+docker build -t kademcp .
 ```
 
 ```json
@@ -65,7 +69,7 @@ docker build -t ctf-mcp .
         "run", "-i", "--rm",
         "--network", "host",
         "-v", "/path/to/challenges:/challenges",
-        "ctf-mcp"
+        "kademcp"
       ]
     }
   }
@@ -142,9 +146,10 @@ docker build -t ctf-mcp .
 ## Project structure
 
 ```
-ctf-mcp/
+KadeMCP/
 ├── server.py                   # MCP entry point — registers all tools
 ├── tools/
+│   ├── __init__.py
 │   ├── utils.py                # Shared: run_cmd, run_python, helpers
 │   ├── reversing.py            # Reversing + pwn tools
 │   ├── crypto.py               # Crypto tools
@@ -155,6 +160,7 @@ ctf-mcp/
 │       └── ci.yml              # Lint + import check on push/PR
 ├── Dockerfile
 ├── requirements.txt
+├── pyproject.toml
 ├── LICENSE
 └── README.md
 ```

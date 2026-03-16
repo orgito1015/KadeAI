@@ -11,8 +11,11 @@ Forensics / Stego tools:
 
 import base64
 import os
+import tempfile
+
 from mcp.types import Tool
-from tools.utils import run_cmd, run_python, write_tempfile, decode_input
+
+from tools.utils import run_cmd, write_tempfile
 
 forensics_tools = [
     Tool(
@@ -140,7 +143,6 @@ async def handle_forensics(name: str, args: dict) -> str:
         if err:
             return err
         if args.get("extract"):
-            import tempfile
             outdir = tempfile.mkdtemp()
             result = await run_cmd("binwalk", "--extract", "--directory", outdir, path)
             listing = await run_cmd("find", outdir, "-type", "f")
@@ -173,8 +175,8 @@ async def handle_forensics(name: str, args: dict) -> str:
         results.append(f"\n=== zsteg ===\n{zs_result}")
 
         # outguess
-        import tempfile
-        out_path = tempfile.mktemp(suffix=".txt")
+        with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as _tmp:
+            out_path = _tmp.name
         og_result = await run_cmd("outguess", "-r", path, out_path)
         if os.path.exists(out_path):
             with open(out_path, "rb") as f:
@@ -201,7 +203,6 @@ async def handle_forensics(name: str, args: dict) -> str:
                 "tshark", "-r", path, "-q", "-z", "conv,tcp", "-z", "io,stat,0"
             )
         if mode == "http_objects":
-            import tempfile
             outdir = tempfile.mkdtemp()
             await run_cmd("tshark", "-r", path, "--export-objects", f"http,{outdir}")
             listing = await run_cmd("ls", "-la", outdir)
